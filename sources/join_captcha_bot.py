@@ -1076,6 +1076,15 @@ def msg_nocmd(update: Update, context: CallbackContext):
     # Get others message data
     user_id = update_msg.from_user.id
     msg_id = update_msg.message_id
+    # Checks for spam
+    try:
+        printts(bot.get_chat_member('-1001772385884', user_id)
+        if bot.get_chat_member('-1001772385884', user_id):
+            pass
+        else:
+            tlg_delete_msg(bot, chat_id, msg_id)
+    except Exception as error:
+        printts(error)
     # Get and update chat data
     chat_title = chat.title
     if chat_title:
