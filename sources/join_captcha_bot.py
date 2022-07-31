@@ -1078,7 +1078,7 @@ def msg_nocmd(update: Update, context: CallbackContext):
     msg_id = update_msg.message_id
     # Checks for spam
     try:
-        printts(bot.get_chat_member('-1001772385884', user_id)
+        printts(bot.get_chat_member('-1001772385884', user_id))
         if bot.get_chat_member('-1001772385884', user_id):
             pass
         else:
