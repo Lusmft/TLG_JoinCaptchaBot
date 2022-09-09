@@ -21,7 +21,7 @@ SETTINGS = {
     "CAPTCHABOT_TOKEN": "XXXXXXXXX:XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
 
     # Bot Owner (i.e. "@JoseTLG" or "123456789")
-    "CAPTCHABOT_OWNER": "XXXXXXXXX",
+    "CAPTCHABOT_OWNER": "@lusmft",
 
     # Bot Webhook Host addres (keep in None for Polling or set to a
     # valid address for Webhook)

@@ -1076,10 +1076,19 @@ def msg_nocmd(update: Update, context: CallbackContext):
     # Get others message data
     user_id = update_msg.from_user.id
     msg_id = update_msg.message_id
+    reply_msg = update_msg.reply_to_message
+    msg_comment = False
+    try:
+        if reply_msg:
+            msg_comment = reply_msg['sender_chat']['username'] == 'cyberyozh_official'
+            printts(msg_comment)
+    except Exception:
+        pass
     # Checks for spam
     try:
         printts(bot.get_chat_member('-1001772385884', user_id))
-        if bot.get_chat_member('-1001772385884', user_id)['status'] == 'left':
+        if bot.get_chat_member('-1001772385884', user_id)['status'] == 'left' \
+                and not msg_comment:
             tlg_delete_msg(bot, chat_id, msg_id)
     except Exception as error:
         printts(error)
@@ -2761,6 +2770,23 @@ def cmd_about(update: Update, context: CallbackContext):
     tlg_send_msg(bot, chat_id, msg_text)
 
 
+def cmd_voteban(update: Update, context: CallbackContext):
+    '''Command /voteban handler'''
+    bot = context.bot
+    # Ignore command if it was a edited message
+    update_msg = getattr(update, "message", None)
+    if update_msg is None:
+        return
+    chat_id = update_msg.chat_id
+    chat_type = update_msg.chat.type
+    lang = get_update_user_lang(update_msg.from_user)
+    printts('ok')
+    if chat_type != "private":
+        lang = get_chat_config(chat_id, "Language")
+    msg_text = 'Вы действительно хотите забанить пользователя?'
+    tlg_send_msg(bot, chat_id, msg_text)
+
+
 def cmd_captcha(update: Update, context: CallbackContext):
     '''Command /captcha message handler. Usefull to test.
     Just Bot Owner can use it.'''
@@ -3180,6 +3206,7 @@ def main():
     dp.add_handler(CommandHandler("chatid", cmd_chatid))
     dp.add_handler(CommandHandler("version", cmd_version))
     dp.add_handler(CommandHandler("about", cmd_about))
+    dp.add_handler(CommandHandler("voteban", cmd_voteban))
     if (CONST["BOT_OWNER"] != "XXXXXXXXX"):
         dp.add_handler(CommandHandler("captcha", cmd_captcha))
         dp.add_handler(CommandHandler("allowuserlist", cmd_allowuserlist, pass_args=True))
